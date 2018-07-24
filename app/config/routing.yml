@@ -1,0 +1,11 @@
+blogger_blog:
+    resource: "@BloggerBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+
+BloggerBlogBundle_about:
+    path:   /about
+    defaults: { _controller: "BloggerBlogBundle:Page:about" }
+    requirements:
+          methods:  GET
+
+
