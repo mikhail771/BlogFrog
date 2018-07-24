@@ -32,3 +32,5 @@ monolog:
 
 #swiftmailer:
 #    delivery_addresses: ['me@example.com']
+swiftmailer:
+    delivery_address: mmihajlov771@gmail.com
