@@ -5,6 +5,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Blogger\BlogBundle\Entity\Blog;
 
+
 class BlogFixtures implements FixtureInterface
 {
     public function load(ObjectManager $manager)
