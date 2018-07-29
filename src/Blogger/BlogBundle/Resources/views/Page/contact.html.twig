@@ -4,7 +4,7 @@
 
 {% block body %}
     <header>
-        <h1>Contact BlogFrog</h1>
+        <h1>Квантакты BlogFrog</h1>
     </header>
 
     {% for flashMessage in app.session.flashbag.get('blogger-notice') %}
@@ -13,7 +13,7 @@
         </div>
     {% endfor %}
 
-    <p>Do you want to contact BlogFrog?</p>
+    <p>Жаждешь квантакта с BlogFrog?</p>
 
     {{ form_start(form, { 'action': path('BloggerBlogBundle_contact'), 'method': 'POST', 'attr': {'class': 'blogger'} }) }}
     {{ form_errors(form) }}

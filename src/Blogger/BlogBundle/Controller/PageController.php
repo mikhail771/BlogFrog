@@ -16,8 +16,12 @@ class PageController extends Controller
         $em = $this->getDoctrine()
             ->getManager();
 
-        $blogs = $em->getRepository('BloggerBlogBundle:Blog')
-            ->getLatestBlogs();
+        $blogs = $em->createQueryBuilder()
+            ->select('b')
+            ->from('BloggerBlogBundle:Blog',  'b')
+            ->addOrderBy('b.created', 'DESC')
+            ->getQuery()
+            ->getResult();
 
         return $this->render('BloggerBlogBundle:Page:index.html.twig', array(
             'blogs' => $blogs
@@ -37,8 +41,8 @@ class PageController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $message = \Swift_Message::newInstance()
-                    ->setSubject('Contact enquiry from symblog')
-                    ->setFrom('enquiries@symblog.co.uk')
+                    ->setSubject('Contact enquiry from BlogFrog')
+                    ->setFrom('mmihajlov771@gmail.com')
                     ->setTo($this->container->getParameter('blogger_blog.emails.contact_email'))
                     ->setBody($this->renderView('BloggerBlogBundle:Page:contactEmail.txt.twig', array('enquiry' => $enquiry)));
 
@@ -47,14 +51,39 @@ class PageController extends Controller
 
                 $this->get('session')->getFlashBag()->add('blogger-notice', 'Your contact enquiry was successfully sent. Thank you!');
 
-                // Redirect - This is important to prevent users re-posting
-                // the form if they refresh the page
                 return $this->redirect($this->generateUrl('BloggerBlogBundle_contact'));
             }
         }
 
         return $this->render('BloggerBlogBundle:Page:contact.html.twig', array(
             'form' => $form->createView()
+        ));
+    }
+
+
+    public function sidebarAction()
+    {
+        $em = $this->getDoctrine()
+            ->getManager();
+
+        $tags = $em->getRepository('BloggerBlogBundle:Blog')
+            ->getTags();
+
+        $tagWeights = $em->getRepository('BloggerBlogBundle:Blog')
+            ->getTagWeights($tags);
+
+        return $this->render('BloggerBlogBundle:Page:sidebar.html.twig', array(
+            'tags' => $tagWeights
+        ));
+
+        $commentLimit   = $this->container
+            ->getParameter('blogger_blog.comments.latest_comment_limit');
+        $latestComments = $em->getRepository('BloggerBlogBundle:Comment')
+            ->getLatestComments($commentLimit);
+
+        return $this->render('BloggerBlogBundle:Page:sidebar.html.twig', array(
+            'latestComments'    => $latestComments,
+            'tags'              => $tagWeights
         ));
     }
 

@@ -65,6 +65,11 @@ class Blog
      * @return integer
      */
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -80,25 +85,20 @@ class Blog
         $this->setUpdated(new \DateTime());
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
+
 
     /**
      * Set title
      *
      * @param string $title
      *
-     * @return Blog
      */
     public function setTitle($title)
     {
         $this->title = $title;
 
-        return $this;
-    }
 
+    }
     /**
      * Get title
      *
@@ -289,4 +289,11 @@ class Blog
     {
         return $this->comments;
     }
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
+
+
 }
